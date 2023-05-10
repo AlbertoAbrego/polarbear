@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Queue : MonoBehaviour
 {
-    public static Queue SharedInstance;
+    public static Queue sharedInstance;
     private List<ClientGroup> queue = new List<ClientGroup>();
     public List<float> sizes = new List<float>();
     private Vector3 endOfQueue;
 
     private void Awake()
     {
-        SharedInstance = this;
+        sharedInstance = this;
     }
 
     private void Start()
@@ -37,30 +37,37 @@ public class Queue : MonoBehaviour
                 endOfQueue.y += 1.5f;
             }
         }
-        //endOfQueue.y += (queue.Count == 1) ? 0 : Mathf.Max(cg.clientSize , sizes[^1]);
         cg.transform.position = endOfQueue;
         sizes.Add(cg.clientSize);
+        int table = Tables.sharedInstance.GetAvailable();
+        if(table > -1)
+        {
+            SendClientsToTable(table);
+        }
     }
 
-    //TODO: para cuando se eliminen de la fila pasos a futuro
-    //private void DeleteFromQueue()
-    //{
-    //    int table = Tables.GetAvailableTable();
-    //    queue[0].MoveToTableAssigned(table);
-    //    queue.RemoveAt(0);
-    //    MoveQueue();
-    //}
+    public void SendClientsToTable(int table)
+    {
+        if(queue.Count > 0)
+        {
+            Tables.sharedInstance.SetNotAvailable(table, queue[0]);
+            StartCoroutine(queue[0].MoveToTable(table));
+            queue.RemoveAt(0);
+            MoveQueue();
+        }
+    }
 
-    //public void MoveQueue()
-    //{
-    //    int index = 0;
-    //    for(int cg = 1; cg < queue.Count; cg++)
-    //    {
-    //        Vector3 newPosition = queue[cg].transform.position;
-    //        newPosition.y -= sizes[index];
-    //        StartCoroutine(queue[cg].MoveTo(newPosition, "D"));
-    //        index++;
-    //    }
-    //    sizes.RemoveAt(0);
-    //}
+
+    public void MoveQueue()
+    {
+        int index = 0;
+        for (int cg = 1; cg < queue.Count; cg++)
+        {
+            Vector3 newPosition = queue[cg].transform.position;
+            newPosition.y -= sizes[index];
+            StartCoroutine(queue[cg].MoveTo(newPosition, "D"));
+            index++;
+        }
+        sizes.RemoveAt(0);
+    }
 }

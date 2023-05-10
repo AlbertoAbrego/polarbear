@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1073585129209081147}
   - component: {fileID: -5669142112638599089}
+  - component: {fileID: -4370263522335197119}
   m_Layer: 0
   m_Name: ClientsGroupPrefab4
   m_TagString: Untagged
@@ -49,6 +50,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clientSize: 2
+  numberOfClients: 4
+--- !u!65 &-4370263522335197119
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567941746947072383}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 6, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &253697373179680620
 PrefabInstance:
   m_ObjectHideFlags: 0
