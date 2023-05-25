@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public void AddMoney(float payment)
     {
         money += payment;
+        HUD.sharedInstance.UpdateCash(money);
         Debug.Log(money);
     }
 }

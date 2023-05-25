@@ -8,9 +8,9 @@ public class ClientGroup : MonoBehaviour
     public float clientSize;
     public int numberOfClients;
     //private readonly Vector3 SPEEDH = new(0.005f, 0, 0);
-    private readonly Vector3 SPEEDH = new(0.05f, 0, 0);
+    private readonly Vector3 SPEEDH = new(0.06f, 0, 0);
     //private readonly Vector3 SPEEDV = new(0, 0.005f, 0);
-    private readonly Vector3 SPEEDV = new(0, 0.05f, 0);
+    private readonly Vector3 SPEEDV = new(0, 0.06f, 0);
     private int tableAssigned;
     private int timeToStay; //segundos
     private Dictionary<string, int> order = new Dictionary<string, int>();
@@ -55,6 +55,8 @@ public class ClientGroup : MonoBehaviour
         {
             transform.GetChild(i).localPosition = positions[i];
         }
+        //TODO: esperar un tiempo, en lo que toman decision de que comer
+        Tables.sharedInstance.ReadyToOrder(tableAssigned);
     }
 
     void StandUpClients()
@@ -82,7 +84,7 @@ public class ClientGroup : MonoBehaviour
     void CreateIndividualOrder(int amountOfTacos, List<string> typeOfTacosAvailable)
     {
         int typeSelected;
-        typeSelected = Random.Range(0, typeOfTacosAvailable.Count - 1);
+        typeSelected = Random.Range(0, typeOfTacosAvailable.Count);
         if(amountOfTacos > 3)
         {
             AddTacosToOrder(3, typeOfTacosAvailable[typeSelected]);
@@ -141,6 +143,7 @@ public class ClientGroup : MonoBehaviour
     public IEnumerator MoveToExit()
     {
         yield return StartCoroutine(Routing(GameManager.sharedInstance.GetCorrectRouteExit(tableAssigned)));
+        Destroy(gameObject);
     }
 
     IEnumerator Routing(string route)
@@ -153,7 +156,7 @@ public class ClientGroup : MonoBehaviour
             switch (step.Substring(0, 1))
             {
                 case "E":
-                    yield return StartCoroutine(MoveTo(GameManager.sharedInstance.GetEntranceSpot(), step.Substring(2, 1)));
+                    yield return MoveTo(GameManager.sharedInstance.GetEntranceSpot(), step.Substring(2, 1));
                     break;
                 case "Q":
                     yield return MoveTo(GameManager.sharedInstance.GetExitSpot(), step.Substring(2, 1));
@@ -244,7 +247,9 @@ public class ClientGroup : MonoBehaviour
         {
             if (!orderTaken)
             {
+                HUD.sharedInstance.AddToOrdersQueue(tableAssigned, order);
                 Orders.sharedInstance.AddOrderToQueue(order, tableAssigned);
+                Tables.sharedInstance.OrderTaken(tableAssigned);
                 orderTaken = true;
                 Debug.Log("order taken");
             }
@@ -263,7 +268,7 @@ public class ClientGroup : MonoBehaviour
                 canBeClicked = false;
                 Tables.sharedInstance.SetAvailable(tableAssigned);
                 StandUpClients();
-                Queue.sharedInstance.SendClientsToTable(Tables.sharedInstance.GetAvailable());
+                StartCoroutine(Queue.sharedInstance.SendClientsToTable());
                 StartCoroutine(MoveToExit());
             }
         }
