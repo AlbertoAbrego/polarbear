@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         sharedInstance = this;
+        Time.fixedDeltaTime = 0.016f;
     }
 
     private void Start()
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
         TABLES = currentLevel.GetTables();
         entranceRouteLevel = currentLevel.GetEntranceRoute();
         Tables.sharedInstance.StartTables(TABLES.Length);
+        Tables.sharedInstance.SpawnTables();
         foreach(string type in StarterTypeOfTacos)
         {
             TypeOfTacosUnlocked.Add(type);
@@ -84,27 +86,18 @@ public class GameManager : MonoBehaviour
     }
 
     public Vector3 GetSpawnSpot() { return SpawnSpot; }
-
     public void SetSpawnSpot(Vector3 newSpawnSpot) { SpawnSpot = newSpawnSpot; }
-
     public Vector3 GetEntranceSpot() { return EntranceSpot; }
-
     public void SetEntranceSpot(Vector3 newEntrance) { EntranceSpot = newEntrance; }
-
     public Vector3 GetExitSpot() { return ExitSpot; }
-
     public Vector3 GetSpotN(int n) { return SPOTS[n]; }
-
     public Vector3 GetTableN(int n) { return TABLES[n]; }
-
+    public Vector3 GetCartPosition() { return currentLevel.GetCart(); }
+    public Vector3[] GetTables() { return TABLES; }
     public Vector3 StandUpClientsFromTable(int table) { return currentLevel.GetCorrectStandupSpot(table); }
-
     public string GetEntranceRouteLevel() { return entranceRouteLevel; }
-
     public string GetRouteClient(int table) { return currentLevel.GetCorrectRouteClient(table); }
-
     public string GetCorrectRouteExit(int table) { return currentLevel.GetCorrectExitClientRoute(table); }
-
     public Vector3[] GetSeatsPositions(int clients)
     {
         return (clients) switch

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2cdb32064ae376c4c9224227d25e9fb0
+guid: 648e23449a1836944ab96686058adf49
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -13,8 +13,8 @@ TextureImporter:
     borderMipMap: 0
     mipMapsPreserveCoverage: 0
     alphaTestReferenceValue: 0.5
-    mipMapFadeDistanceStart: 8
-    mipMapFadeDistanceEnd: 10
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 682.6667
+  spritePixelsToUnits: 1
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1

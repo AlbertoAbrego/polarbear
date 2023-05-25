@@ -7,14 +7,13 @@ public class FirstLevel : MonoBehaviour, ILevel
     public Vector3 EntranceSpot { get; } = new(-11.5f, -6.75f, 0); //ES
     public Vector3 SpawnSpot { get; } = new(-26.5f, -6.75f, 0);//SS
     public Vector3 ExitSpot { get; } = new(-11.5f, 15f, 0);//QS
-
+    public Vector3 Cart { get; } = new(-8.5f, 2.25f, 0);
     public Vector3[] SPOTS { get; } = 
     {
         new Vector3(-3, -6, 0),
         new Vector3(-3, 3, 0),
         new Vector3(-3, -3, 0)
     };
-
     public Vector3[] TABLES_POSITIONS { get; } = {
         new Vector3(1, 6, 0),
         new Vector3(1, 0, 0),
@@ -38,6 +37,7 @@ public class FirstLevel : MonoBehaviour, ILevel
     public Vector3 GetEntranceSpot() { return EntranceSpot; }
     public Vector3 GetSpawnSpot() { return SpawnSpot; }
     public Vector3 GetExitSpot() { return ExitSpot; }
+    public Vector3 GetCart() { return Cart; }
     public Vector3[] GetTables() { return TABLES_POSITIONS; }
     public Vector3[] GetSpots() { return SPOTS; }
     public string GetEntranceRoute() { return "ESR"; }

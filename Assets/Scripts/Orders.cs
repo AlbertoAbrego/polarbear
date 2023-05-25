@@ -30,6 +30,7 @@ public class Orders : MonoBehaviour
                 Tables.sharedInstance.SetOrderCompleted(ordersQueueTables[0]);
                 ordersCompletedTables.Add(ordersQueueTables[0]);
                 ordersQueueTables.RemoveAt(0);
+                HUD.sharedInstance.PrepareNextOrder();
                 if(ordersQueue.Count > 0 )
                 {
                     timeUntilOrderCompleted = SetOrderTime();
@@ -42,6 +43,7 @@ public class Orders : MonoBehaviour
             else
             {
                 timeElapsed += Time.deltaTime;
+                HUD.sharedInstance.UpdateOrder(Time.deltaTime/timeUntilOrderCompleted);
             }
         }
     }
@@ -71,5 +73,6 @@ public class Orders : MonoBehaviour
     {
         ordersCompleted.RemoveAt(ordersCompletedTables.IndexOf(table));
         ordersCompletedTables.RemoveAt(ordersCompletedTables.IndexOf(table));
+        HUD.sharedInstance.RemoveOrderDelivered(table);
     }
 }
